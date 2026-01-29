@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}CLIP 语义图像搜索 - 搜索{% endblock %}
+
+{% block content %}
+<div class="search-container">
+    <!-- Search Header -->
+    <div class="search-header">
+        <h1>语义图像搜索</h1>
+        <p class="subtitle">使用自然语言或图像搜索您的图片库</p>
+    </div>
+
+    <!-- Search Tabs -->
+    <div class="search-tabs">
+        <button class="tab-button active" data-tab="text-tab">
+            <span class="tab-icon">📝</span>
+            <span class="tab-label">文本</span>
+        </button>
+        <button class="tab-button" data-tab="image-tab">
+            <span class="tab-icon">🖼️</span>
+            <span class="tab-label">图像</span>
+        </button>
+        <button class="tab-button" data-tab="multimodal-tab">
+            <span class="tab-icon">🔀</span>
+            <span class="tab-label">多模态</span>
+        </button>
+        <button class="tab-button" data-tab="multi-image-tab">
+            <span class="tab-icon">📸</span>
+            <span class="tab-label">多图片</span>
+        </button>
+    </div>
+
+    <!-- Text Search Tab -->
+    <div class="tab-content active" id="text-tab">
+        <form id="text-search-form" class="search-form">
+            <div class="input-group">
+                <input
+                    type="text"
+                    id="text-query"
+                    class="search-input"
+                    placeholder="例如：公园里奔跑的狗, a smiling person"
+                    autocomplete="off"
+                >
+                <button type="submit" class="search-button">
+                    <span class="button-icon">🔍</span>
+                    搜索
+                </button>
+            </div>
+
+            <div class="search-options">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="text-enhance" checked>
+                    <span>查询增强</span>
+                </label>
+
+                <div class="slider-group">
+                    <label for="text-top-k">返回结果数: <span id="text-top-k-value">20</span></label>
+                    <input
+                        type="range"
+                        id="text-top-k"
+                        class="slider"
+                        min="5"
+                        max="100"
+                        value="20"
+                        step="5"
+                    >
+                </div>
+            </div>
+
+            <div class="enhanced-query" id="text-enhanced-query" style="display: none;">
+                <p class="enhanced-label">增强后的查询:</p>
+                <p class="enhanced-text" id="text-enhanced-text"></p>
+            </div>
+        </form>
+
+        <!-- Example Queries -->
+        <div class="examples-section">
+            <h3>示例查询</h3>
+            <div class="examples-grid">
+                <button class="example-button" data-query="一个开心微笑的人">
+                    一个开心微笑的人
+                </button>
+                <button class="example-button" data-query="街道上的红色跑车">
+                    街道上的红色跑车
+                </button>
+                <button class="example-button" data-query="白色盘子上的美食">
+                    白色盘子上的美食
+                </button>
+                <button class="example-button" data-query="山上的美丽日落">
+                    山上的美丽日落
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Search Tab -->
+    <div class="tab-content" id="image-tab">
+        <div class="upload-container">
+            <div class="drop-zone" id="image-drop-zone">
+                <div class="drop-icon">📸</div>
+                <p class="drop-text">拖放图片到此处</p>
+                <p class="drop-subtext">或点击选择文件</p>
+                <input
+                    type="file"
+                    id="image-upload"
+                    class="file-input"
+                    accept="image/*"
+                    hidden
+                >
+            </div>
+
+            <div id="image-preview" class="image-preview" style="display: none;">
+                <img id="image-preview-img" src="" alt="预览">
+                <button id="image-remove-btn" class="remove-button" type="button">移除</button>
+            </div>
+
+            <div class="search-options">
+                <div class="slider-group">
+                    <label for="image-top-k">返回结果数: <span id="image-top-k-value">20</span></label>
+                    <input
+                        type="range"
+                        id="image-top-k"
+                        class="slider"
+                        min="5"
+                        max="100"
+                        value="20"
+                        step="5"
+                    >
+                </div>
+            </div>
+
+            <button id="image-search-btn" class="search-button" style="display: none;">
+                <span class="button-icon">🔍</span>
+                以图搜图
+            </button>
+        </div>
+    </div>
+
+    <!-- Multimodal Search Tab -->
+    <div class="tab-content" id="multimodal-tab">
+        <div class="multimodal-container">
+            <div class="form-group">
+                <label for="multimodal-query">文本查询:</label>
+                <input
+                    type="text"
+                    id="multimodal-query"
+                    class="search-input"
+                    placeholder="例如: 户外场景"
+                >
+            </div>
+
+            <div class="upload-container">
+                <div class="drop-zone" id="multimodal-drop-zone">
+                    <div class="drop-icon">📸</div>
+                    <p class="drop-text">拖放图片到此处</p>
+                    <p class="drop-subtext">或点击选择文件</p>
+                    <input
+                        type="file"
+                        id="multimodal-upload"
+                        class="file-input"
+                        accept="image/*"
+                        hidden
+                    >
+                </div>
+
+                <div id="multimodal-preview" class="image-preview" style="display: none;">
+                    <img id="multimodal-preview-img" src="" alt="预览">
+                    <button id="multimodal-remove-btn" class="remove-button" type="button">移除</button>
+                </div>
+            </div>
+
+            <div class="search-options">
+                <div class="slider-group">
+                    <label for="multimodal-alpha">文本权重: <span id="multimodal-alpha-value">0.5</span></label>
+                    <input
+                        type="range"
+                        id="multimodal-alpha"
+                        class="slider"
+                        min="0"
+                        max="1"
+                        value="0.5"
+                        step="0.1"
+                    >
+                </div>
+
+                <div class="slider-group">
+                    <label for="multimodal-top-k">返回结果数: <span id="multimodal-top-k-value">20</span></label>
+                    <input
+                        type="range"
+                        id="multimodal-top-k"
+                        class="slider"
+                        min="5"
+                        max="100"
+                        value="20"
+                        step="5"
+                    >
+                </div>
+            </div>
+
+            <button id="multimodal-search-btn" class="search-button" style="display: none;">
+                <span class="button-icon">🔍</span>
+                搜索
+            </button>
+        </div>
+    </div>
+
+    <!-- Multi-Image Search Tab -->
+    <div class="tab-content" id="multi-image-tab">
+        <div class="multi-upload-container">
+            <div class="drop-zone" id="multi-image-drop-zone">
+                <div class="drop-icon">📸</div>
+                <p class="drop-text">拖放多张图片到此处</p>
+                <p class="drop-subtext">或点击选择文件（最多 10 张）</p>
+                <input
+                    type="file"
+                    id="multi-image-upload"
+                    class="file-input"
+                    accept="image/*"
+                    multiple
+                    hidden
+                >
+            </div>
+
+            <div id="multi-image-previews" class="multi-image-previews"></div>
+
+            <div class="search-options">
+                <div class="slider-group">
+                    <label for="multi-image-top-k">返回结果数: <span id="multi-image-top-k-value">20</span></label>
+                    <input
+                        type="range"
+                        id="multi-image-top-k"
+                        class="slider"
+                        min="5"
+                        max="100"
+                        value="20"
+                        step="5"
+                    >
+                </div>
+            </div>
+
+            <button id="multi-image-search-btn" class="search-button" style="display: none;">
+                <span class="button-icon">🔍</span>
+                多图片搜索
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Results Section -->
+<div id="results-section" class="results-section" style="display: none;">
+    <div class="results-header">
+        <h2>搜索结果</h2>
+        <p class="results-count">找到 <span id="results-total">0</span> 条结果</p>
+    </div>
+
+    <!-- Loading State -->
+    <div id="results-loading" class="loading-skeleton" style="display: none;">
+        <div class="skeleton-item"></div>
+        <div class="skeleton-item"></div>
+        <div class="skeleton-item"></div>
+        <div class="skeleton-item"></div>
+    </div>
+
+    <!-- Results Grid -->
+    <div id="results-grid" class="results-grid"></div>
+
+    <!-- Pagination Controls -->
+    <div id="pagination-controls" class="pagination-controls" style="display: none;">
+        <button id="prev-page-btn" class="pagination-btn">← 上一页</button>
+        <span id="page-info" class="page-info">第 1 页</span>
+        <button id="next-page-btn" class="pagination-btn">下一页 →</button>
+    </div>
+
+    <!-- Load More Button (for infinite scroll) -->
+    <button id="load-more-btn" class="load-more-button" style="display: none;">
+        加载更多结果
+    </button>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+<script src="{{ url_for('static', filename='js/feedback.js') }}"></script>
+{% endblock %}

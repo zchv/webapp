@@ -1,0 +1,440 @@
+/* Responsive Design */
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+    /* Typography */
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
+
+    /* Navigation */
+    .navbar-menu {
+        gap: var(--spacing-md);
+    }
+
+    .nav-link {
+        padding: var(--spacing-sm);
+        font-size: 0.9rem;
+    }
+
+    /* Search Tabs */
+    .search-tabs {
+        gap: var(--spacing-sm);
+    }
+
+    .tab-button {
+        padding: var(--spacing-sm) var(--spacing-md);
+        gap: 0.25rem;
+    }
+
+    .tab-label {
+        display: none;
+    }
+
+    /* Search Options */
+    .search-options {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .slider-group {
+        min-width: unset;
+    }
+
+    /* Input Group */
+    .input-group {
+        flex-direction: column;
+    }
+
+    .search-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Results Grid */
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: var(--spacing-md);
+    }
+
+    /* Examples Grid */
+    .examples-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Pagination */
+    .pagination-controls {
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+    }
+
+    .pagination-btn {
+        flex: 1;
+        min-width: 100px;
+    }
+
+    .page-info {
+        width: 100%;
+        order: 3;
+    }
+
+    /* Drop Zone */
+    .drop-zone {
+        padding: var(--spacing-lg);
+    }
+
+    .drop-icon {
+        font-size: 2.5rem;
+    }
+
+    /* Modal */
+    .modal-content {
+        max-width: 90%;
+        max-height: 95vh;
+    }
+
+    /* Toast */
+    .toast-container {
+        left: var(--spacing-md);
+        right: var(--spacing-md);
+    }
+
+    .toast {
+        max-width: 100%;
+    }
+
+    /* Footer */
+    .footer {
+        padding: var(--spacing-lg) 0;
+    }
+
+    .footer p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+    /* Root font sizes */
+    :root {
+        --spacing-md: 0.75rem;
+        --spacing-lg: 1rem;
+        --spacing-xl: 1.5rem;
+        --spacing-2xl: 2rem;
+    }
+
+    /* Typography */
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.1rem; }
+    body { font-size: 0.95rem; }
+
+    /* Navigation */
+    .navbar-container {
+        padding: var(--spacing-sm);
+    }
+
+    .navbar-brand a {
+        gap: var(--spacing-sm);
+        font-size: 1rem;
+    }
+
+    .brand-icon {
+        font-size: 1.25rem;
+    }
+
+    .navbar-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background-color: white;
+        border-bottom: 1px solid var(--border-color);
+        padding: var(--spacing-md);
+        gap: var(--spacing-sm);
+    }
+
+    .navbar-menu.show {
+        display: flex;
+    }
+
+    .nav-link {
+        padding: var(--spacing-md);
+        border-bottom: none;
+        border-left: 3px solid transparent;
+        padding-left: var(--spacing-md);
+    }
+
+    .nav-link.active {
+        border-left-color: var(--primary-color);
+        border-bottom-color: transparent;
+    }
+
+    .navbar-toggle {
+        display: flex;
+    }
+
+    /* Search Header */
+    .search-header {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .search-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    /* Search Tabs */
+    .search-tabs {
+        gap: var(--spacing-xs);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .tab-button {
+        padding: var(--spacing-sm);
+        font-size: 0.8rem;
+    }
+
+    .tab-icon {
+        font-size: 1rem;
+    }
+
+    /* Search Options */
+    .search-options {
+        padding: var(--spacing-md);
+        gap: var(--spacing-md);
+    }
+
+    .slider-group label {
+        font-size: 0.85rem;
+    }
+
+    /* Input Group */
+    .input-group {
+        gap: var(--spacing-sm);
+    }
+
+    .search-input {
+        padding: var(--spacing-sm);
+        font-size: 0.95rem;
+    }
+
+    .search-button {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.9rem;
+    }
+
+    /* Examples */
+    .examples-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .example-button {
+        padding: var(--spacing-sm);
+        font-size: 0.85rem;
+    }
+
+    /* Voice Button */
+    .voice-button {
+        width: 100px;
+        height: 100px;
+        font-size: 1.5rem;
+    }
+
+    #voice-button-text {
+        font-size: 0.75rem;
+    }
+
+    .voice-info {
+        font-size: 0.85rem;
+    }
+
+    /* Results Grid - 1 column on mobile */
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .multi-image-previews {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: var(--spacing-sm);
+    }
+
+    /* Drop Zone */
+    .drop-zone {
+        padding: var(--spacing-lg);
+    }
+
+    .drop-icon {
+        font-size: 2rem;
+    }
+
+    .drop-text {
+        font-size: 1rem;
+    }
+
+    .drop-subtext {
+        font-size: 0.85rem;
+    }
+
+    /* Pagination */
+    .pagination-controls {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md);
+    }
+
+    .pagination-btn {
+        width: 100%;
+    }
+
+    .page-info {
+        font-size: 0.9rem;
+    }
+
+    /* Load More Button */
+    .load-more-button {
+        padding: var(--spacing-md);
+        font-size: 0.9rem;
+    }
+
+    /* Modal */
+    .modal-content {
+        max-width: 95%;
+    }
+
+    .modal-header {
+        padding: var(--spacing-md);
+    }
+
+    .modal-body {
+        padding: var(--spacing-md);
+    }
+
+    .modal-footer {
+        padding: var(--spacing-md);
+        gap: var(--spacing-sm);
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+    }
+
+    /* Toast */
+    .toast-container {
+        top: var(--spacing-md);
+        left: var(--spacing-sm);
+        right: var(--spacing-sm);
+    }
+
+    .toast {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.9rem;
+        max-width: 100%;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding: var(--spacing-lg) 0;
+    }
+
+    /* Search Container */
+    .search-container {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    /* Feedback Buttons */
+    .feedback-button {
+        flex: 1;
+        padding: var(--spacing-xs);
+        font-size: 0.75rem;
+    }
+
+    .feedback-icon {
+        font-size: 0.85rem;
+    }
+
+    /* Spinner */
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 3px;
+    }
+
+    #loading-text {
+        font-size: 1rem;
+    }
+}
+
+/* Landscape Mobile (max-height: 500px) */
+@media (max-height: 500px) and (orientation: landscape) {
+    .navbar {
+        padding: var(--spacing-sm) 0;
+    }
+
+    .search-header {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .search-header h1 {
+        font-size: 1.25rem;
+        margin-bottom: 0;
+    }
+
+    .subtitle {
+        display: none;
+    }
+
+    .search-tabs {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .search-options {
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
+    }
+
+    .voice-button {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5rem;
+    }
+
+    .voice-search-container {
+        gap: var(--spacing-md);
+        padding: var(--spacing-lg);
+    }
+
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .search-tabs,
+    .search-options,
+    .pagination-controls,
+    .load-more-button,
+    .feedback-buttons,
+    .footer {
+        display: none;
+    }
+
+    .results-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .result-card {
+        page-break-inside: avoid;
+    }
+}

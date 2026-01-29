@@ -1,255 +1,219 @@
 # CLIP 语义图像搜索应用
 
-基于 CLIP 模型的自然语言图像搜索应用，支持中英文查询。
+## 🎯 当前版本：Flask Web 应用
 
-## 🌐 快速开始
+本项目是一个基于 **Flask** 的现代 Web 应用，用于语义图像搜索。支持文本、图像、语音、多模态等多种搜索方式。
 
-### 1. 准备图片
+> **原 Streamlit 版本已弃用** - 请使用 Flask Web 版本以获得更好的功能和性能。
+
+## 🚀 快速开始
+
+### 1. 创建虚拟环境
+
 ```bash
-# 将图片放入images文件夹
-mkdir -p images
-# 复制你的图片到images文件夹
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-### 2. 生成Embeddings
-```bash
-python get_embeddings.py
-```
-
-### 3. 启动应用
-```bash
-streamlit run app.py
-```
-
-### 4. 访问地址
-http://localhost:8501
-
-## 📦 安装
+### 2. 安装依赖
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## ✨ 主要功能
-
-- 🔍 **自然语言搜索**: 使用中英文描述搜索图片
-- 📝 **查询增强**: 自动优化查询文本提高检索效果
-- 🌡️ **温度调节**: 可调节相似度分布
-- 📊 **相似度可视化**: 颜色编码显示匹配度
-- ⚡ **快速检索**: 使用预计算embeddings，搜索速度快
-- 🌍 **离线运行**: 使用本地模型，无需网络
-
-## 🚀 使用流程
-
-### 第一步：准备图片
-
-将你的图片放入 `./images` 文件夹：
-
-```bash
-images/
-├── photo1.jpg
-├── photo2.png
-├── photo3.jpg
-└── ...
-```
-
-支持的格式：JPG, JPEG, PNG, WEBP, BMP, GIF
-
-### 第二步：生成Embeddings
-
-运行脚本为所有图片生成向量：
+### 3. 生成索引
 
 ```bash
 python get_embeddings.py
+python build_faiss_index.py
 ```
 
-这会：
-- 扫描 `./images` 文件夹中的所有图片
-- 使用CLIP模型生成512维向量
-- 保存到 `image_embeddings.pkl` 文件
+### 4. 启动应用
 
-**注意**: 只需运行一次，或在添加新图片时重新运行
-
-### 第三步：搜索图片
-
-启动Web应用：
-
+**推荐方式（使用启动脚本）:**
 ```bash
-streamlit run app.py
+./start.sh
 ```
 
-然后：
-1. 在浏览器中打开 http://localhost:8501
-2. 输入自然语言查询
-3. 查看按相似度排序的结果
-4. 调整参数优化效果
+**手动启动:**
+```bash
+export KMP_DUPLICATE_LIB_OK=TRUE
+source venv/bin/activate
+python app_web.py
+```
 
-## 💡 搜索技巧
+> **注意**: 必须设置 `KMP_DUPLICATE_LIB_OK=TRUE` 环境变量，以避免 PyTorch 的 OpenMP 库冲突问题。
 
-### 好的查询示例
+### 5. 访问应用
 
-✅ **描述性查询**
-- "a golden retriever dog running in a green park"
-- "modern glass building with blue sky background"
-- "delicious pizza with cheese on wooden table"
-- "一个穿着红色衣服的女孩在海边微笑"
+打开浏览器访问: http://localhost:5001
 
-### 避免的查询
+## 📖 详细文档
 
-❌ **太简单**: "dog", "car"
-❌ **太模糊**: "thing", "stuff"
-❌ **太主观**: "nice", "beautiful"
+- **[安装指南](INSTALLATION.md)** - 完整的安装步骤
+- **[Flask Web 文档](README_WEB.md)** - 功能和 API 说明
+- **[优化指南](OPTIMIZATION_GUIDE.md)** - 性能优化建议
 
-### 提高效果的方法
+## ✨ 主要功能
 
-1. **使用描述性语言**: 包含颜色、动作、场景等细节
-2. **包含关键特征**: 描述主要视觉元素
-3. **使用具体词汇**: 避免抽象或模糊的词
-4. **组合多个概念**: 描述完整场景
-5. **支持中英文**: 两种语言都能获得好效果
+### 🔍 5 种搜索模式
+- **文本搜索** - 自然语言查询
+- **语音搜索** - Web Speech API
+- **图像搜索** - 以图搜图
+- **多模态搜索** - 文本 + 图像融合
+- **多图片搜索** - 多张图片向量融合
 
-## 🔧 技术栈
+### 🎨 现代 Web UI
+- 响应式设计（桌面/平板/手机）
+- 实时搜索结果
+- 拖拽上传支持
+- 分页/无限滚动
 
-- **模型**: CLIP ViT-B-32 (LAION训练)
-- **训练数据**: 2B+ 图像对
-- **前端**: Streamlit
-- **后端**: PyTorch + OpenCLIP
-- **Embedding**: 512维语义向量
-- **相似度**: 余弦相似度
+### 👥 用户反馈系统
+- 点赞、收藏、标记功能
+- SQLite 数据库持久化
+- 反馈基础重排序
+- 统计分析
 
-## 📊 性能
+## 📊 技术栈
 
-- **Embedding生成**: ~40 images/second (CPU)
-- **搜索速度**: 近乎实时 (< 100ms for 1000 images)
-- **GPU加速**: 自动检测并使用
-- **Embedding维度**: 512
-- **相似度范围**: 0-100%
-- **推荐阈值**: >25% 为相关结果
-
-## 🎯 参数说明
-
-### Query Enhancement (查询增强)
-- **作用**: 自动添加"a photo of"等前缀
-- **效果**: 提高短查询的检索准确度
-- **建议**: 保持开启
-
-### Temperature (温度)
-- **范围**: 0.1 - 2.0
-- **默认**: 1.0
-- **调整**:
-  - < 1.0: 使高分更高，低分更低（更集中）
-  - = 1.0: 保持原始分布
-  - > 1.0: 使分数更平滑（更分散）
+| 层级 | 技术 | 版本 |
+|------|------|------|
+| Web 框架 | Flask | 3.1.2 |
+| 深度学习 | PyTorch | 2.10.0 |
+| CLIP 模型 | OpenCLIP | 3.2.0 |
+| 向量搜索 | FAISS | 1.13.2 |
+| 图像处理 | Pillow | 12.1.0 |
+| 前端 | Vanilla JS (ES6+) | - |
+| 样式 | CSS3 (Grid/Flexbox) | - |
 
 ## 📁 项目结构
 
 ```
-.
-├── app.py                    # 主应用（预计算版本）
-├── app_upload_version.py     # 备用：实时上传版本
-├── get_embeddings.py         # Embedding生成脚本
-├── requirements.txt          # 依赖列表
-├── images/                   # 图片文件夹
-│   ├── photo1.jpg
-│   └── ...
-├── models/                   # 模型文件夹
+agent-webapp/
+├── venv/                    # Python 虚拟环境
+├── app_web.py              # Flask 应用（主程序）
+├── config.py               # 配置文件
+├── requirements.txt        # 依赖列表
+│
+├── api/                    # API 层
+│   ├── search.py          # 搜索端点
+│   └── utils.py           # 工具函数
+│
+├── core/                   # ML 核心
+│   ├── clip_model.py      # CLIP 模型包装
+│   ├── faiss_index.py     # FAISS 索引管理
+│   └── feedback.py        # 反馈数据库
+│
+├── utils/                  # 工具模块
+│   ├── image_processor.py # 图像处理
+│   └── query_enhancer.py  # 查询增强
+│
+├── templates/             # HTML 模板
+│   ├── base.html
+│   ├── index.html
+│   ├── settings.html
+│   └── stats.html
+│
+├── static/                # 前端资源
+│   ├── css/              # 7 个样式表
+│   ├── js/               # 10 个脚本文件
+│   └── uploads/          # 用户上传
+│
+├── data/                  # 数据文件
+│   ├── faiss_index/      # FAISS 索引
+│   ├── feedback.db       # SQLite 反馈数据
+│   └── images/           # 原始图片
+│
+├── models/               # CLIP 模型
 │   └── ViT-B-32-laion2B-s34B-b79K/
-│       ├── open_clip_pytorch_model.bin
-│       └── open_clip_config.json
-├── image_embeddings.pkl      # 预计算的embeddings
-├── README.md                 # 本文件
-└── OPTIMIZATION.md           # 优化说明
+│
+└── docs/                 # 文档
+    ├── INSTALLATION.md
+    ├── README_WEB.md
+    └── OPTIMIZATION_GUIDE.md
 ```
 
-## 🔄 更新图片
+## 🔧 API 端点
 
-当你添加新图片时：
+### 搜索接口
+- `POST /api/search/text` - 文本搜索
+- `POST /api/search/image` - 图像搜索
+- `POST /api/search/voice` - 语音搜索
+- `POST /api/search/multimodal` - 多模态搜索
+- `POST /api/search/multi-image` - 多图片搜索
+- `GET /api/search/stats` - 搜索统计
 
-1. 将新图片放入 `./images` 文件夹
-2. 重新运行: `python get_embeddings.py`
-3. 刷新浏览器页面
+### 反馈接口
+- `POST /api/search/feedback/record` - 记录反馈
+- `GET /api/search/feedback/stats/<id>` - 获取反馈统计
+- `GET /api/search/feedback/top-rated` - 高评分图片
 
-## 🔄 模型信息
+### 工具接口
+- `GET /api/health` - 健康检查
+- `GET /api/examples` - 示例查询
 
-### 当前模型
-- **名称**: CLIP-ViT-B-32-laion2B-s34B-b79K
-- **来源**: LAION
-- **大小**: 577.2 MB
-- **训练数据**: 2B+ 图像对
+## 🎯 系统要求
 
-### 模型特点
-- 更大规模的训练数据
-- 更强的泛化能力
-- 对多样化场景理解更好
-- 长尾分布查询表现优秀
+### 最小配置
+- **CPU**: 双核 2GHz
+- **内存**: 4 GB
+- **磁盘**: 3 GB (包括模型)
 
-## 🎓 示例查询
+### 推荐配置
+- **CPU**: Apple Silicon (M1+) 或 Intel i7+
+- **内存**: 8 GB+
+- **磁盘**: 5 GB+
+- **GPU**: NVIDIA CUDA 或 Apple MPS
 
-### 英文查询
-- "a person smiling happily"
-- "red sports car on street"
-- "delicious food on white plate"
-- "beautiful sunset over mountains"
-- "modern office interior"
-- "cute dog playing in park"
+## 📝 常见问题
 
-### 中文查询
-- "一个开心微笑的人"
-- "街道上的红色跑车"
-- "白色盘子上的美食"
-- "山上的美丽日落"
-- "现代办公室内景"
-- "公园里玩耍的可爱小狗"
-
-## 🐛 故障排除
-
-### 未找到embeddings文件
-运行 `python get_embeddings.py` 生成embeddings
-
-### 模型加载失败
-确保模型文件存在于 `./models/ViT-B-32-laion2B-s34B-b79K/` 目录
-
-### 检索效果不佳
-1. 开启 Query Enhancement
-2. 调整 Temperature 参数
-3. 使用更描述性的查询
-4. 参考搜索技巧部分
-
-### Embedding生成速度慢
-- 使用GPU加速（如果可用）
-- 分批处理大量图片
-
-## 💻 两种使用模式
-
-### 模式1: 预计算Embeddings（推荐）
-- **文件**: `app.py` + `get_embeddings.py`
-- **优点**: 搜索速度快，适合大量图片
-- **适用**: 图片库相对固定的场景
-
-### 模式2: 实时上传
-- **文件**: `app_upload_version.py`
-- **优点**: 无需预处理，即传即搜
-- **适用**: 临时搜索，图片经常变化
-
-切换到实时上传模式：
+### Q: 如何添加更多图片？
+A: 将图片放入 `images/` 目录，然后运行：
 ```bash
-streamlit run app_upload_version.py
+python get_embeddings.py
+python build_faiss_index.py
 ```
 
-## 📚 参考资源
+### Q: 支持哪些图片格式？
+A: PNG, JPG, JPEG, GIF, BMP, WEBP
 
-- [CLIP论文](https://arxiv.org/abs/2103.00020)
-- [OpenCLIP项目](https://github.com/mlfoundations/open_clip)
-- [LAION官网](https://laion.ai/)
-- [Streamlit文档](https://docs.streamlit.io)
+### Q: 语音搜索在 Firefox 中不工作？
+A: Firefox 不支持 Web Speech API，请使用 Chrome/Edge/Safari
+
+### Q: 如何在生产环境部署？
+A: 参考 [INSTALLATION.md](INSTALLATION.md) 中的生产部署章节
+
+### Q: 可以离线使用吗？
+A: 是的，所有模型都本地存储，可以完全离线使用
+
+## 🔒 安全说明
+
+- 所有处理在本地进行，无数据上传到云服务
+- 反馈数据存储在本地 SQLite 数据库
+- 建议生产环境使用 HTTPS
 
 ## 📄 许可证
 
-本项目使用的组件：
-- OpenAI CLIP (MIT License)
-- Streamlit (Apache 2.0)
-- PyTorch (BSD License)
+- OpenAI CLIP - MIT License
+- Flask - BSD License
+- PyTorch - BSD License
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 📞 支持
+
+遇到问题？
+1. 查看 [INSTALLATION.md](INSTALLATION.md) 的故障排除部分
+2. 检查 [README_WEB.md](README_WEB.md) 的详细文档
+3. 查看应用日志获取错误信息
 
 ---
 
-**开始使用自然语言搜索你的图片吧！** 🔍✨
+**准备好了吗？** 参考 [快速开始](#-快速开始) 立即开始使用！🚀
+
+**上次更新**: 2026-01-29
+**Python 版本**: 3.13.2
+**Flask 版本**: 3.1.2

@@ -1,0 +1,62 @@
+{
+  "image_paths": [
+    "./data/images/亭子.webp",
+    "./data/images/叶子.webp",
+    "./data/images/晚霞.webp",
+    "./data/images/树.webp",
+    "./data/images/狗.jpeg",
+    "./data/images/花.jpeg",
+    "./data/images/路.webp",
+    "./data/images/骑马.jpg",
+    "./data/images/鱼.jpeg"
+  ],
+  "image_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "metadata": {
+    "0": {
+      "filename": "亭子.webp",
+      "path": "./data/images/亭子.webp"
+    },
+    "1": {
+      "filename": "叶子.webp",
+      "path": "./data/images/叶子.webp"
+    },
+    "2": {
+      "filename": "晚霞.webp",
+      "path": "./data/images/晚霞.webp"
+    },
+    "3": {
+      "filename": "树.webp",
+      "path": "./data/images/树.webp"
+    },
+    "4": {
+      "filename": "狗.jpeg",
+      "path": "./data/images/狗.jpeg"
+    },
+    "5": {
+      "filename": "花.jpeg",
+      "path": "./data/images/花.jpeg"
+    },
+    "6": {
+      "filename": "路.webp",
+      "path": "./data/images/路.webp"
+    },
+    "7": {
+      "filename": "骑马.jpg",
+      "path": "./data/images/骑马.jpg"
+    },
+    "8": {
+      "filename": "鱼.jpeg",
+      "path": "./data/images/鱼.jpeg"
+    }
+  }
+}

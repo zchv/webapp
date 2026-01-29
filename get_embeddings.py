@@ -12,7 +12,7 @@ from tqdm import tqdm
 import numpy as np
 
 # 配置
-IMAGE_FOLDER = "./images"
+IMAGE_FOLDER = "./data/images"
 OUTPUT_FILE = "image_embeddings.pkl"
 MODEL_NAME = 'ViT-B-32'
 PRETRAINED = './models/ViT-B-32-laion2B-s34B-b79K/open_clip_pytorch_model.bin'
@@ -99,7 +99,7 @@ def generate_embeddings():
     print(f"✅ 成功为 {len(valid_files)} 张图片生成embeddings")
     print(f"📦 Embedding维度: {embeddings.shape}")
     print(f"💾 已保存到: {OUTPUT_FILE}")
-    print(f"\n🚀 现在可以运行 streamlit run app.py 来使用搜索功能")
+    print(f"\n🚀 现在可以运行 python build_faiss_index.py 来构建FAISS索引")
 
 if __name__ == "__main__":
     generate_embeddings()

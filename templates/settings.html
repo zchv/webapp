@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}设置 - CLIP 语义图像搜索{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <h1>设置</h1>
+    <p class="subtitle">配置搜索行为和显示选项</p>
+
+    <!-- Search Settings -->
+    <section class="settings-section">
+        <h2>搜索设置</h2>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <h3>默认返回结果数</h3>
+                <p>默认显示的结果数量</p>
+            </div>
+            <div class="setting-control">
+                <input
+                    type="range"
+                    id="default-top-k"
+                    class="slider"
+                    min="5"
+                    max="100"
+                    value="20"
+                    step="5"
+                >
+                <span id="default-top-k-value" class="setting-value">20</span>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <h3>查询增强</h3>
+                <p>自动增强文本查询以获得更好的结果</p>
+            </div>
+            <div class="setting-control">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="query-enhancement" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <h3>启用重排序</h3>
+                <p>使用用户反馈重新排序结果（检索 100 条，显示前 20 条）</p>
+            </div>
+            <div class="setting-control">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="enable-reranking" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Display Settings -->
+    <section class="settings-section">
+        <h2>显示设置</h2>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <h3>加载模式</h3>
+                <p>选择结果的加载方式</p>
+            </div>
+            <div class="setting-control">
+                <select id="loading-mode" class="setting-select">
+                    <option value="pagination">分页加载</option>
+                    <option value="infinite">无限滚动</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <h3>每页结果数</h3>
+                <p>分页模式下每页显示的结果数量</p>
+            </div>
+            <div class="setting-control">
+                <input
+                    type="range"
+                    id="results-per-page"
+                    class="slider"
+                    min="10"
+                    max="50"
+                    value="20"
+                    step="5"
+                >
+                <span id="results-per-page-value" class="setting-value">20</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Settings -->
+    <section class="settings-section">
+        <h2>高级设置</h2>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <h3>搜索历史</h3>
+                <p>在本地存储最近的搜索记录</p>
+            </div>
+            <div class="setting-control">
+                <button id="clear-history-btn" class="button secondary">
+                    清除历史
+                </button>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <h3>反馈缓存</h3>
+                <p>清除缓存的反馈数据</p>
+            </div>
+            <div class="setting-control">
+                <button id="clear-cache-btn" class="button secondary">
+                    清除缓存
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Save Button -->
+    <div class="settings-actions">
+        <button id="save-settings-btn" class="button">
+            保存设置
+        </button>
+        <button id="reset-settings-btn" class="button secondary">
+            恢复默认
+        </button>
+    </div>
+</div>
+
+<style>
+.settings-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.settings-container h1 {
+    margin-bottom: var(--spacing-sm);
+}
+
+.settings-section {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.settings-section h2 {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--secondary-color);
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-info h3 {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-size: 1.1rem;
+}
+
+.setting-info p {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.setting-control {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.setting-value {
+    min-width: 40px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.setting-select {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    cursor: pointer;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 26px;
+    transition: var(--transition);
+}
+
+.toggle-slider:before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background-color: var(--primary-color);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+.settings-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    margin-top: var(--spacing-xl);
+}
+
+@media (max-width: 768px) {
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+
+    .setting-control {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .settings-actions {
+        flex-direction: column;
+    }
+
+    .settings-actions button {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}
